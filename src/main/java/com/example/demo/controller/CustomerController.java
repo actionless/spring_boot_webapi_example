@@ -14,7 +14,7 @@ import com.example.demo.entity.Customer;
 import com.example.demo.service.CustomerService;
 
 
-@RestController("/api")
+@RestController("/api/customer")
 public class CustomerController {
 
     @Autowired
