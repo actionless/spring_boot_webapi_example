@@ -1,4 +1,4 @@
-Java Test task for Blue Harvest
+Java Test task
 ==
 
 
