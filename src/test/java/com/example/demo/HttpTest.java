@@ -91,10 +91,21 @@ class HttpRequestTest {
 	}
 
 	@Test
+	void accountsEmpty() throws Exception {
+		JSONArray expected = new JSONArray("[]");
+		assertGetQueryArray("/api/accounts", expected);
+	}
+
+	@Test
+	void transactionsEmpty() throws Exception {
+		JSONArray expected = new JSONArray("[]");
+		assertGetQueryArray("/api/transactions", expected);
+	}
+
+	@Test
 	void customersAddOne() throws Exception {
 		JSONObject payload = new JSONObject("{'name':'Alice', 'surname': 'Bright'}");
 		JSONObject expected = new JSONObject("{'id':0,'name':'Alice','surname':'Bright'}");
 		assertPostQueryObject("/api/customer", payload, expected);
 	}
-
 }
