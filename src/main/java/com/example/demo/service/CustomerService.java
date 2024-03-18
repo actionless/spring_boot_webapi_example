@@ -26,6 +26,6 @@ public class CustomerService {
             customerStore.remove(id);
     }
     public List<Customer> getAllCustomers() {
-        return  customerStore.values().stream().toList();
+        return customerStore.values().stream().toList();
     }
 }

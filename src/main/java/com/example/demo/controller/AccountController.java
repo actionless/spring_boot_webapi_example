@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Account;
+import com.example.demo.entity.AccountResponse;
 import com.example.demo.entity.NewAccount;
 import com.example.demo.service.AccountService;
+import com.example.demo.service.TransactionService;
 
 
 @RestController("/api/account")
@@ -21,9 +23,15 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private TransactionService transactionService;
+
     @GetMapping("/api/account/{id}")
-    public Account getAccount(@PathVariable int id){
-        return accountService.getAccount(id);
+    public AccountResponse getAccount(@PathVariable int id){
+        return new AccountResponse(
+				accountService.getAccount(id),
+				transactionService.getTransactionsForAccount(id)
+		);
     }
 
     @GetMapping("/api/accounts")

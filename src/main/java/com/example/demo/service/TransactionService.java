@@ -43,4 +43,7 @@ public class TransactionService {
     public List<Transaction> getAllTransactions() {
         return transactionStore.values().stream().toList();
     }
+    public List<Transaction> getTransactionsForAccount(int id) {
+        return transactionStore.values().stream().filter(tr -> tr.getAccount().getId() == id).toList();
+    }
 }
