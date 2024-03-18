@@ -22,17 +22,17 @@ public class TransactionService {
     private static HashMap<Integer, Transaction> transactionStore = new HashMap<Integer, Transaction>();
     private AccountService accountService;
 
-	@Autowired
-	public TransactionService(@Lazy AccountService accountService) {
-		this.accountService = accountService;
-	}
+    @Autowired
+    public TransactionService(@Lazy AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     public Transaction createOrUpdate(TransactionQuery newTransaction) {
         Account account = accountService.getAccount(newTransaction.accountID);
         Transaction transaction = new Transaction(account, newTransaction.amount);
-		account.setBalance(account.getBalance().add(transaction.getAmount()));
+        account.setBalance(account.getBalance().add(transaction.getAmount()));
         transactionStore.put(transaction.getId(), transaction);
-		return transaction;
+        return transaction;
     }
     public Transaction getTransaction(int id) {
         return transactionStore.get(id);

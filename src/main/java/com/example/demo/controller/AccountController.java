@@ -29,9 +29,9 @@ public class AccountController {
     @GetMapping("/api/account/{id}")
     public AccountResponse getAccount(@PathVariable int id){
         return new AccountResponse(
-				accountService.getAccount(id),
-				transactionService.getTransactionsForAccount(id)
-		);
+                accountService.getAccount(id),
+                transactionService.getTransactionsForAccount(id)
+        );
     }
 
     @GetMapping("/api/accounts")

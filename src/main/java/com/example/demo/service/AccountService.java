@@ -24,21 +24,21 @@ public class AccountService {
     private CustomerService customerService;
     private TransactionService transactionService;
 
-	@Autowired
-	public AccountService(@Lazy CustomerService customerService, @Lazy TransactionService transactionService) {
-		this.customerService = customerService;
-		this.transactionService = transactionService;
-	}
+    @Autowired
+    public AccountService(@Lazy CustomerService customerService, @Lazy TransactionService transactionService) {
+        this.customerService = customerService;
+        this.transactionService = transactionService;
+    }
 
     public Account createOrUpdate(AccountQuery newAccount) {
         Customer customer = customerService.getCustomer(newAccount.customerID);
         Account account = new Account(customer);
         accountStore.put(account.getId(), account);
-		if (newAccount.initialCredit.compareTo(new BigDecimal(0)) != 0) {
-			transactionService.createOrUpdate(new TransactionQuery(account.getId(), newAccount.initialCredit));
-			return getAccount(account.getId());
-		}
-		return account;
+        if (newAccount.initialCredit.compareTo(new BigDecimal(0)) != 0) {
+            transactionService.createOrUpdate(new TransactionQuery(account.getId(), newAccount.initialCredit));
+            return getAccount(account.getId());
+        }
+        return account;
     }
     public Account getAccount(int id) {
         return accountStore.get(id);

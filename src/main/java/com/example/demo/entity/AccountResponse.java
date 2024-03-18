@@ -18,10 +18,10 @@ class AccountResponseTransaction {
     private int id;
     private BigDecimal amount;
 
-	public AccountResponseTransaction(Transaction transaction) {
-		id = transaction.getId();
-		amount = transaction.getAmount();
-	}
+    public AccountResponseTransaction(Transaction transaction) {
+        id = transaction.getId();
+        amount = transaction.getAmount();
+    }
 
     public int getId() {
         return id;
@@ -38,12 +38,12 @@ public class AccountResponse {
     private Date createdAt;
     private List<AccountResponseTransaction> transactions;
 
-	public AccountResponse (Account account, List<Transaction> transactions) {
-		this.id = account.getId();
-		this.customer = account.getCustomer();
-		this.balance = account.getBalance();
-		this.transactions = transactions.stream().map(tr -> new AccountResponseTransaction(tr)).toList();
-	}
+    public AccountResponse (Account account, List<Transaction> transactions) {
+        this.id = account.getId();
+        this.customer = account.getCustomer();
+        this.balance = account.getBalance();
+        this.transactions = transactions.stream().map(tr -> new AccountResponseTransaction(tr)).toList();
+    }
 
     public int getId() {
         return id;
@@ -57,7 +57,7 @@ public class AccountResponse {
     public Customer getCustomer() {
         return customer;
     }
-	public List<AccountResponseTransaction> getTransactions() {
+    public List<AccountResponseTransaction> getTransactions() {
         return transactions;
     }
 }
