@@ -1,20 +1,15 @@
 package com.example.demo;
 
 
-import static org.assertj.core.api.Assertions.assertThat;
-import org.assertj.core.api.AbstractStringAssert;
-import org.assertj.core.api.ObjectAssert;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -22,14 +17,22 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 
-import com.example.demo.controller.AccountController;
-import com.example.demo.controller.CustomerController;
-import com.example.demo.controller.TransactionController;
+import com.example.demo.service.AccountService;
+import com.example.demo.service.CustomerService;
+import com.example.demo.service.TransactionService;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class HttpRequestTest {
+
+	@Autowired
+	private AccountService accountService;
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private TransactionService transactionService;
 
 	@LocalServerPort
 	private int port;
@@ -83,6 +86,12 @@ class HttpRequestTest {
 		);
 	}
 
+	@BeforeEach
+	void flushVirtualDatabase() {
+		accountService.clear();
+		customerService.clear();
+		transactionService.clear();
+	}
 
 	@Test
 	void customersEmpty() throws Exception {
@@ -102,10 +111,21 @@ class HttpRequestTest {
 		assertGetQueryArray("/api/transactions", expected);
 	}
 
+	@DirtiesContext
 	@Test
 	void customersAddOne() throws Exception {
 		JSONObject payload = new JSONObject("{'name':'Alice', 'surname': 'Bright'}");
 		JSONObject expected = new JSONObject("{'id':0,'name':'Alice','surname':'Bright'}");
 		assertPostQueryObject("/api/customer", payload, expected);
+	}
+
+	@DirtiesContext
+	@Test
+	void accountsAddOne() throws Exception {
+		customersAddOne();
+
+		JSONObject payloadAccount = new JSONObject("{'customerID':0, 'initialCredit': 0}");
+		JSONObject expectedAccount = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':0}");
+		assertPostQueryObject("/api/account", payloadAccount, expectedAccount);
 	}
 }
