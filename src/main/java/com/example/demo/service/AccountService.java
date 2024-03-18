@@ -21,10 +21,8 @@ public class AccountService {
     private CustomerService customerService = new CustomerService();
 
     public Account createOrUpdate(NewAccount newAccount) {
-		System.out.println(newAccount.customerID);
-		System.out.println(newAccount.initialCredit);
-		Customer customer = customerService.getCustomer(newAccount.customerID);
-		Account account = new Account(customer, newAccount.initialCredit);
+        Customer customer = customerService.getCustomer(newAccount.customerID);
+        Account account = new Account(customer, newAccount.initialCredit);
         return accountStore.put(account.getId(), account);
     }
     public Account getAccount(int id) {

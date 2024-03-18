@@ -4,6 +4,6 @@ import java.math.BigDecimal;
 
 
 public class NewAccount {
-	public int customerID;
-	public BigDecimal initialCredit;
+    public int customerID;
+    public BigDecimal initialCredit;
 }

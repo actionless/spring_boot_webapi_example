@@ -15,28 +15,28 @@ import com.example.demo.entity.Customer;
 public class Account {
     private static int idCounter = 0;
 
-	@Id
+    @Id
     private int id = idCounter++;
 
-	@JoinColumn(name = "customerID", referencedColumnName = "id")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Customer customer;
+    @JoinColumn(name = "customerID", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Customer customer;
 
     private BigDecimal balance = new BigDecimal(0);
     private Date createdAt = Date.from(java.time.Instant.now());
 
-	public Account(Customer customerID, BigDecimal initialCredit) {
-		customer = customerID;
-		balance = initialCredit;
-	}
+    public Account(Customer customerID, BigDecimal initialCredit) {
+        customer = customerID;
+        balance = initialCredit;
+    }
 
-	public int getId() {
-		return id;
-	}
-	public BigDecimal getBalance() {
-		return balance;
-	}
-	public Customer getCustomer() {
-		return customer;
-	}
+    public int getId() {
+        return id;
+    }
+    public BigDecimal getBalance() {
+        return balance;
+    }
+    public Customer getCustomer() {
+        return customer;
+    }
 }
