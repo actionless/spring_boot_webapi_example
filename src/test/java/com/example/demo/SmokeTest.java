@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SmokeTest {
 
-	@Test
-	void contextLoadsAccount() throws Exception {
-	}
+    @Test
+    void contextLoadsAccount() throws Exception {
+    }
 }

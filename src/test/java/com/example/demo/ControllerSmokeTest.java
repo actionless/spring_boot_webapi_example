@@ -15,23 +15,23 @@ import com.example.demo.controller.TransactionController;
 @SpringBootTest
 class ControllerSmokeTest {
 
-	@Autowired
-	private AccountController accountController;
-	@Autowired
-	private CustomerController customerController;
-	@Autowired
-	private TransactionController transactionController;
+    @Autowired
+    private AccountController accountController;
+    @Autowired
+    private CustomerController customerController;
+    @Autowired
+    private TransactionController transactionController;
 
-	@Test
-	void contextLoadsAccount() throws Exception {
-		assertThat(accountController).isNotNull();
-	}
-	@Test
-	void contextLoadsCustomer() throws Exception {
-		assertThat(customerController).isNotNull();
-	}
-	@Test
-	void contextLoadsTransaction() throws Exception {
-		assertThat(transactionController).isNotNull();
-	}
+    @Test
+    void contextLoadsAccount() throws Exception {
+        assertThat(accountController).isNotNull();
+    }
+    @Test
+    void contextLoadsCustomer() throws Exception {
+        assertThat(customerController).isNotNull();
+    }
+    @Test
+    void contextLoadsTransaction() throws Exception {
+        assertThat(transactionController).isNotNull();
+    }
 }

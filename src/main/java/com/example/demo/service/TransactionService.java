@@ -30,7 +30,7 @@ public class TransactionService {
     }
 
     public Transaction createOrUpdate(TransactionQuery newTransaction) {
-		int id = idCounter++;
+        int id = idCounter++;
         Account account = accountService.getAccount(newTransaction.accountID);
         Transaction transaction = new Transaction(id, account, newTransaction.amount);
         account.setBalance(account.getBalance().add(transaction.getAmount()));
@@ -51,8 +51,8 @@ public class TransactionService {
         return transactionStore.values().stream().filter(tr -> tr.getAccount().getId() == id).toList();
     }
 
-	public void clear() {
-		transactionStore.clear();
-		idCounter = 0;
-	}
+    public void clear() {
+        transactionStore.clear();
+        idCounter = 0;
+    }
 }

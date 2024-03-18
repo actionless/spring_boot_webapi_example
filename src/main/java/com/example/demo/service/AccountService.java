@@ -34,7 +34,7 @@ public class AccountService {
 
     public Account createOrUpdate(AccountQuery newAccount) {
         Customer customer = customerService.getCustomer(newAccount.customerID);
-		int id = idCounter++;
+        int id = idCounter++;
         Account account = new Account(id, customer);
         accountStore.put(id, account);
         if (newAccount.initialCredit.compareTo(new BigDecimal(0)) != 0) {
@@ -54,8 +54,8 @@ public class AccountService {
         return accountStore.values().stream().toList();
     }
 
-	public void clear() {
-		accountStore.clear();
-		idCounter = 0;
-	}
+    public void clear() {
+        accountStore.clear();
+        idCounter = 0;
+    }
 }

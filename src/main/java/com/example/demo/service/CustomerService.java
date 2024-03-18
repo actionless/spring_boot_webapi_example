@@ -16,8 +16,8 @@ public class CustomerService {
     private static int idCounter = 0;
 
     public Customer createOrUpdate(Customer customer) {
-		int id = idCounter++;
-		customer.setId(id);
+        int id = idCounter++;
+        customer.setId(id);
         customerStore.put(id, customer);
         return customer;
     }
@@ -32,8 +32,8 @@ public class CustomerService {
         return customerStore.values().stream().toList();
     }
 
-	public void clear() {
-		customerStore.clear();
-		idCounter = 0;
-	}
+    public void clear() {
+        customerStore.clear();
+        idCounter = 0;
+    }
 }
