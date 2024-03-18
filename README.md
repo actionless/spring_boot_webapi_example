@@ -1,12 +1,16 @@
 Java Test task for Blue Harvest
 ==
 
+
+
 Installation
 ==
 
 ```console
 $ ./gradlew
 ```
+
+
 
 Running
 ==
@@ -17,6 +21,13 @@ $ ./gradlew bootRun
 
 Application would listen on `http://localhost:8080/`.
 
+
+
+Automatic Testing
+==
+```console
+$ ./gradlew test
+```
 
 
 
