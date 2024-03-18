@@ -51,7 +51,7 @@ class HttpRequestTest {
 		);
 	}
 
-	private void assertGetQueryArray(String path, JSONObject expected) throws Exception {
+	private void assertGetQueryObject(String path, JSONObject expected) throws Exception {
 		JSONAssert.assertEquals(
 			getQuery(path),
 			expected,
@@ -121,11 +121,70 @@ class HttpRequestTest {
 
 	@DirtiesContext
 	@Test
-	void accountsAddOne() throws Exception {
+	void accountsAddOneZeroBalance() throws Exception {
 		customersAddOne();
 
+		// The API will expose an endpoint which accepts the user information,
+		// (customerID, initialCredit):
 		JSONObject payloadAccount = new JSONObject("{'customerID':0, 'initialCredit': 0}");
+		// Once the endpoint is called, a new account will be opened connected to the user
+		// whose ID is customerID:
 		JSONObject expectedAccount = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':0}");
 		assertPostQueryObject("/api/account", payloadAccount, expectedAccount);
+
+		// if initialCredit is not 0, a transaction will be sent to the new account:
+		JSONArray expectedTransactions = new JSONArray("[]");
+		assertGetQueryArray("/api/transactions", expectedTransactions);
+
+		// Another Endpoint will output the user information showing Name, Surname,
+		// balance, and transactions of the accounts:
+		JSONObject expectedAccountInfo = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':0,'transactions':[]}");
+		assertGetQueryObject("/api/account/0", expectedAccountInfo);
+	}
+
+	@DirtiesContext
+	@Test
+	void accountsAddOnePositiveBalance() throws Exception {
+		customersAddOne();
+
+		// The API will expose an endpoint which accepts the user information,
+		// (customerID, initialCredit):
+		JSONObject payloadAccount = new JSONObject("{'customerID':0, 'initialCredit': 3}");
+		// Once the endpoint is called, a new account will be opened connected to the user
+		// whose ID is customerID:
+		JSONObject expectedAccount = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':3}");
+		assertPostQueryObject("/api/account", payloadAccount, expectedAccount);
+
+		// if initialCredit is not 0, a transaction will be sent to the new account:
+		JSONArray expectedTransactions = new JSONArray("[{'id':0,'account':{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':3},'amount':3}]");
+		assertGetQueryArray("/api/transactions", expectedTransactions);
+
+		// Another Endpoint will output the user information showing Name, Surname,
+		// balance, and transactions of the accounts:
+		JSONObject expectedAccountInfo = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':3,'transactions':[{'id':0,'amount':3}]}");
+		assertGetQueryObject("/api/account/0", expectedAccountInfo);
+	}
+
+	@DirtiesContext
+	@Test
+	void accountsAddOneNegativeBalance() throws Exception {
+		customersAddOne();
+
+		// The API will expose an endpoint which accepts the user information,
+		// (customerID, initialCredit):
+		JSONObject payloadAccount = new JSONObject("{'customerID':0, 'initialCredit': -1.20}");
+		// Once the endpoint is called, a new account will be opened connected to the user
+		// whose ID is customerID:
+		JSONObject expectedAccount = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':-1.20}");
+		assertPostQueryObject("/api/account", payloadAccount, expectedAccount);
+
+		// if initialCredit is not 0, a transaction will be sent to the new account:
+		JSONArray expectedTransactions = new JSONArray("[{'id':0,'account':{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':-1.20},'amount':-1.20}]");
+		assertGetQueryArray("/api/transactions", expectedTransactions);
+
+		// Another Endpoint will output the user information showing Name, Surname,
+		// balance, and transactions of the accounts:
+		JSONObject expectedAccountInfo = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':-1.20,'transactions':[{'id':0,'amount':-1.20}]}");
+		assertGetQueryObject("/api/account/0", expectedAccountInfo);
 	}
 }
