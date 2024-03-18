@@ -21,6 +21,8 @@ public class AccountService {
 
     // Our internal structure to store accounts
     private static HashMap<Integer, Account> accountStore = new HashMap<Integer, Account>();
+    private static int idCounter = 0;
+
     private CustomerService customerService;
     private TransactionService transactionService;
 
@@ -32,8 +34,9 @@ public class AccountService {
 
     public Account createOrUpdate(AccountQuery newAccount) {
         Customer customer = customerService.getCustomer(newAccount.customerID);
-        Account account = new Account(customer);
-        accountStore.put(account.getId(), account);
+		int id = idCounter++;
+        Account account = new Account(id, customer);
+        accountStore.put(id, account);
         if (newAccount.initialCredit.compareTo(new BigDecimal(0)) != 0) {
             transactionService.createOrUpdate(new TransactionQuery(account.getId(), newAccount.initialCredit));
             return getAccount(account.getId());
@@ -50,4 +53,9 @@ public class AccountService {
     public List<Account> getAllAccounts() {
         return accountStore.values().stream().toList();
     }
+
+	public void clear() {
+		accountStore.clear();
+		idCounter = 0;
+	}
 }

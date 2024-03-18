@@ -8,14 +8,17 @@ import java.util.Date;
 
 @Entity
 public class Customer {
-    private static int idCounter = 0;
 
     @Id
-    private int id = idCounter++;
+    private int id;
 
     private String name;
     private String surname;
     private Date createdAt = Date.from(java.time.Instant.now());
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;

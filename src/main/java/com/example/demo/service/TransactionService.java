@@ -20,6 +20,8 @@ public class TransactionService {
 
     // Our internal structure to store transactions
     private static HashMap<Integer, Transaction> transactionStore = new HashMap<Integer, Transaction>();
+    private static int idCounter = 0;
+
     private AccountService accountService;
 
     @Autowired
@@ -28,10 +30,11 @@ public class TransactionService {
     }
 
     public Transaction createOrUpdate(TransactionQuery newTransaction) {
+		int id = idCounter++;
         Account account = accountService.getAccount(newTransaction.accountID);
-        Transaction transaction = new Transaction(account, newTransaction.amount);
+        Transaction transaction = new Transaction(id, account, newTransaction.amount);
         account.setBalance(account.getBalance().add(transaction.getAmount()));
-        transactionStore.put(transaction.getId(), transaction);
+        transactionStore.put(id, transaction);
         return transaction;
     }
     public Transaction getTransaction(int id) {
@@ -47,4 +50,9 @@ public class TransactionService {
     public List<Transaction> getTransactionsForAccount(int id) {
         return transactionStore.values().stream().filter(tr -> tr.getAccount().getId() == id).toList();
     }
+
+	public void clear() {
+		transactionStore.clear();
+		idCounter = 0;
+	}
 }

@@ -13,10 +13,9 @@ import com.example.demo.entity.Customer;
 
 @Entity
 public class Account {
-    private static int idCounter = 0;
 
     @Id
-    private int id = idCounter++;
+    private int id;
 
     @JoinColumn(name = "customerID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,8 +24,13 @@ public class Account {
     private BigDecimal balance = new BigDecimal(0);
     private Date createdAt = Date.from(java.time.Instant.now());
 
-    public Account(Customer customer) {
+    public Account(int id, Customer customer) {
+        this.id = id;
         this.customer = customer;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     public int getId() {
@@ -34,9 +38,6 @@ public class Account {
     }
     public BigDecimal getBalance() {
         return balance;
-    }
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
     }
     public Customer getCustomer() {
         return customer;

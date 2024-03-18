@@ -13,9 +13,12 @@ public class CustomerService {
 
     // Our internal structure to store customers
     private static HashMap<Integer, Customer> customerStore = new HashMap<Integer, Customer>();
+    private static int idCounter = 0;
 
     public Customer createOrUpdate(Customer customer) {
-        customerStore.put(customer.getId(), customer);
+		int id = idCounter++;
+		customer.setId(id);
+        customerStore.put(id, customer);
         return customer;
     }
     public Customer getCustomer(int id) {
@@ -28,4 +31,9 @@ public class CustomerService {
     public List<Customer> getAllCustomers() {
         return customerStore.values().stream().toList();
     }
+
+	public void clear() {
+		customerStore.clear();
+		idCounter = 0;
+	}
 }

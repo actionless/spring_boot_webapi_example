@@ -14,10 +14,9 @@ import com.example.demo.entity.Account;
 
 @Entity
 public class Transaction {
-    private static int idCounter = 0;
 
     @Id
-    private int id = idCounter++;
+    private int id;
 
     @JoinColumn(name = "accountID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +25,8 @@ public class Transaction {
     private BigDecimal amount = new BigDecimal(0);
     private Date createdAt = Date.from(java.time.Instant.now());
 
-    public Transaction(Account account, BigDecimal amount) {
+    public Transaction(int id, Account account, BigDecimal amount) {
+		this.id = id;
         this.account = account;
         this.amount = amount;
     }
