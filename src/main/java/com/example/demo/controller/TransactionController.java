@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Transaction;
 import com.example.demo.entity.TransactionQuery;
+import com.example.demo.entity.TransactionResponse;
 import com.example.demo.service.TransactionService;
 
 
@@ -27,8 +28,8 @@ public class TransactionController {
     }
 
     @GetMapping("/api/transactions")
-    public List<?> getAllTransactions(){
-        return transactionService.getAllTransactions();
+    public List<TransactionResponse> getAllTransactions(){
+        return transactionService.getAllTransactions().stream().map(tr -> new TransactionResponse(tr)).toList();
     }
 
     @PostMapping("/api/transaction")
