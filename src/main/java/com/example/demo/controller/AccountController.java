@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Account;
 import com.example.demo.entity.AccountResponse;
-import com.example.demo.entity.NewAccount;
+import com.example.demo.entity.AccountQuery;
 import com.example.demo.service.AccountService;
 import com.example.demo.service.TransactionService;
 
@@ -45,7 +45,7 @@ public class AccountController {
     }
 
     @PostMapping("/api/account")
-    public Account createAccount(@RequestBody NewAccount account){
+    public Account createAccount(@RequestBody AccountQuery account){
         return accountService.createOrUpdate(account);
     }
 }

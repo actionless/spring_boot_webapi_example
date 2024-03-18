@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Transaction;
-import com.example.demo.entity.NewTransaction;
+import com.example.demo.entity.TransactionQuery;
 import com.example.demo.service.TransactionService;
 
 
@@ -32,7 +32,7 @@ public class TransactionController {
     }
 
     @PostMapping("/api/transaction")
-    public Transaction createTransaction(@RequestBody NewTransaction transaction){
+    public Transaction createTransaction(@RequestBody TransactionQuery transaction){
         return transactionService.createOrUpdate(transaction);
     }
 }

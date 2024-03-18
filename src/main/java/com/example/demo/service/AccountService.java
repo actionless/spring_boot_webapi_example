@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Account;
 import com.example.demo.entity.Customer;
-import com.example.demo.entity.NewAccount;
-import com.example.demo.entity.NewTransaction;
+import com.example.demo.entity.AccountQuery;
+import com.example.demo.entity.TransactionQuery;
 import com.example.demo.service.CustomerService;
 import com.example.demo.service.TransactionService;
 
@@ -30,12 +30,12 @@ public class AccountService {
 		this.transactionService = transactionService;
 	}
 
-    public Account createOrUpdate(NewAccount newAccount) {
+    public Account createOrUpdate(AccountQuery newAccount) {
         Customer customer = customerService.getCustomer(newAccount.customerID);
         Account account = new Account(customer);
         accountStore.put(account.getId(), account);
 		if (newAccount.initialCredit.compareTo(new BigDecimal(0)) != 0) {
-			transactionService.createOrUpdate(new NewTransaction(account.getId(), newAccount.initialCredit));
+			transactionService.createOrUpdate(new TransactionQuery(account.getId(), newAccount.initialCredit));
 			return getAccount(account.getId());
 		}
 		return account;

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Account;
-import com.example.demo.entity.NewTransaction;
+import com.example.demo.entity.TransactionQuery;
 import com.example.demo.entity.Transaction;
 
 import com.example.demo.service.AccountService;
@@ -27,7 +27,7 @@ public class TransactionService {
 		this.accountService = accountService;
 	}
 
-    public Transaction createOrUpdate(NewTransaction newTransaction) {
+    public Transaction createOrUpdate(TransactionQuery newTransaction) {
         Account account = accountService.getAccount(newTransaction.accountID);
         Transaction transaction = new Transaction(account, newTransaction.amount);
 		account.setBalance(account.getBalance().add(transaction.getAmount()));
