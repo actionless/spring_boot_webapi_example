@@ -31,7 +31,8 @@ public class TransactionService {
         Account account = accountService.getAccount(newTransaction.accountID);
         Transaction transaction = new Transaction(account, newTransaction.amount);
 		account.setBalance(account.getBalance().add(transaction.getAmount()));
-        return transactionStore.put(transaction.getId(), transaction);
+        transactionStore.put(transaction.getId(), transaction);
+		return transaction;
     }
     public Transaction getTransaction(int id) {
         return transactionStore.get(id);
