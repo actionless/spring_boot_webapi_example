@@ -187,4 +187,22 @@ class HttpRequestTest {
 		JSONObject expectedAccountInfo = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':-1.20,'transactions':[{'id':0,'amount':-1.20}]}");
 		assertGetQueryObject("/api/account/0", expectedAccountInfo);
 	}
+
+	@DirtiesContext
+	@Test
+	void transactionExtra() throws Exception {
+		accountsAddOneNegativeBalance();
+
+		JSONObject payloadTransaction = new JSONObject("{'accountID':0, 'amount': 5}");
+		JSONObject expectedAccount = new JSONObject("{'id':1,'account':{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':3.80},'amount':5}");
+		assertPostQueryObject("/api/transaction", payloadTransaction, expectedAccount);
+
+		JSONArray expectedTransactions = new JSONArray("[{'id':0,'account':{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':3.80},'amount':-1.20},{'id':1,'account':{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':3.80},'amount':5}]");
+		assertGetQueryArray("/api/transactions", expectedTransactions);
+
+		// Another Endpoint will output the user information showing Name, Surname,
+		// balance, and transactions of the accounts:
+		JSONObject expectedAccountInfo = new JSONObject("{'id':0,'customer':{'id':0,'name':'Alice','surname':'Bright'},'balance':3.80,'transactions':[{'id':0,'amount':-1.20},{'id':1,'amount':5}]}");
+		assertGetQueryObject("/api/account/0", expectedAccountInfo);
+	}
 }
