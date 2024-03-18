@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import org.skyscreamer.jsonassert.JSONAssert;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,19 +48,19 @@ class HttpRequestTest {
 		);
 	}
 
-	private ObjectAssert<JSONObject> assertGetQueryObject(String path) throws JSONException {
-		return assertThat(
-				new JSONObject(
-					getQuery(path)
-				)
+	private void assertGetQueryArray(String path, JSONObject expected) throws Exception {
+		JSONAssert.assertEquals(
+			getQuery(path),
+			expected,
+			false
 		);
 	}
 
-	private ObjectAssert<JSONArray> assertGetQueryArray(String path) throws JSONException{
-		return assertThat(
-				new JSONArray(
-					getQuery(path)
-				)
+	private void assertGetQueryArray(String path, JSONArray expected) throws Exception {
+		JSONAssert.assertEquals(
+			getQuery(path),
+			expected,
+			false
 		);
 	}
 
@@ -73,11 +75,11 @@ class HttpRequestTest {
 		);
 	}
 
-	private ObjectAssert<JSONObject> assertPostQueryObject(String path, JSONObject data) throws JSONException {
-		return assertThat(
-				new JSONObject(
-					postQuery(path, data)
-				)
+	private void assertPostQueryObject(String path, JSONObject payload, JSONObject expected) throws Exception {
+		JSONAssert.assertEquals(
+			postQuery(path, payload),
+			expected,
+			false
 		);
 	}
 
@@ -85,6 +87,14 @@ class HttpRequestTest {
 	@Test
 	void customersEmpty() throws Exception {
 		JSONArray expected = new JSONArray("[]");
-		assertGetQueryArray("/api/customers").isEqualTo(expected);
+		assertGetQueryArray("/api/customers", expected);
 	}
+
+	@Test
+	void customersAddOne() throws Exception {
+		JSONObject payload = new JSONObject("{'name':'Alice', 'surname': 'Bright'}");
+		JSONObject expected = new JSONObject("{'id':0,'name':'Alice','surname':'Bright'}");
+		assertPostQueryObject("/api/customer", payload, expected);
+	}
+
 }
