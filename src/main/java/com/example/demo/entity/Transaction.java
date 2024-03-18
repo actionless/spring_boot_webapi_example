@@ -9,34 +9,35 @@ import jakarta.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.example.demo.entity.Customer;
+import com.example.demo.entity.Account;
+
 
 @Entity
-public class Account {
+public class Transaction {
     private static int idCounter = 0;
 
     @Id
     private int id = idCounter++;
 
-    @JoinColumn(name = "customerID", referencedColumnName = "id")
+    @JoinColumn(name = "accountID", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Customer customer;
+    private Account account;
 
-    private BigDecimal balance = new BigDecimal(0);
+    private BigDecimal amount = new BigDecimal(0);
     private Date createdAt = Date.from(java.time.Instant.now());
 
-    public Account(Customer customerObj, BigDecimal initialCredit) {
-        customer = customerObj;
-        balance = initialCredit;
+    public Transaction(Account accountObj, BigDecimal amountDec) {
+        account = accountObj;
+        amount = amountDec;
     }
 
     public int getId() {
         return id;
     }
-    public BigDecimal getBalance() {
-        return balance;
+    public BigDecimal getAmount() {
+        return amount;
     }
-    public Customer getCustomer() {
-        return customer;
+    public Account getAccount() {
+        return account;
     }
 }
