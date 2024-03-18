@@ -15,7 +15,8 @@ public class CustomerService {
     private static HashMap<Integer, Customer> customerStore = new HashMap<Integer, Customer>();
 
     public Customer createOrUpdate(Customer customer) {
-        return customerStore.put(customer.getId(), customer);
+        customerStore.put(customer.getId(), customer);
+		return customer;
     }
     public Customer getCustomer(int id) {
         return customerStore.get(id);

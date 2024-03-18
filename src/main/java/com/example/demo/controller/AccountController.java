@@ -19,7 +19,7 @@ import com.example.demo.service.AccountService;
 public class AccountController {
 
     @Autowired
-    private AccountService accountService; // inject our service
+    private AccountService accountService;
 
     @GetMapping("/api/account/{id}")
     public Account getAccount(@PathVariable int id){

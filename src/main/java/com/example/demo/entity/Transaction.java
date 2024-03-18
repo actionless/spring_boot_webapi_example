@@ -26,9 +26,9 @@ public class Transaction {
     private BigDecimal amount = new BigDecimal(0);
     private Date createdAt = Date.from(java.time.Instant.now());
 
-    public Transaction(Account accountObj, BigDecimal amountDec) {
-        account = accountObj;
-        amount = amountDec;
+    public Transaction(Account account, BigDecimal amount) {
+        this.account = account;
+        this.amount = amount;
     }
 
     public int getId() {

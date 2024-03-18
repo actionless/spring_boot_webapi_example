@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.math.BigDecimal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Account;
@@ -18,11 +20,17 @@ public class TransactionService {
 
     // Our internal structure to store transactions
     private static HashMap<Integer, Transaction> transactionStore = new HashMap<Integer, Transaction>();
-    private AccountService accountService = new AccountService();
+    private AccountService accountService;
+
+	@Autowired
+	public TransactionService(@Lazy AccountService accountService) {
+		this.accountService = accountService;
+	}
 
     public Transaction createOrUpdate(NewTransaction newTransaction) {
         Account account = accountService.getAccount(newTransaction.accountID);
         Transaction transaction = new Transaction(account, newTransaction.amount);
+		account.setBalance(account.getBalance().add(transaction.getAmount()));
         return transactionStore.put(transaction.getId(), transaction);
     }
     public Transaction getTransaction(int id) {

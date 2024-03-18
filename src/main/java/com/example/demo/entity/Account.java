@@ -25,9 +25,8 @@ public class Account {
     private BigDecimal balance = new BigDecimal(0);
     private Date createdAt = Date.from(java.time.Instant.now());
 
-    public Account(Customer customerObj, BigDecimal initialCredit) {
-        customer = customerObj;
-        balance = initialCredit;
+    public Account(Customer customer) {
+        this.customer = customer;
     }
 
     public int getId() {
@@ -35,6 +34,9 @@ public class Account {
     }
     public BigDecimal getBalance() {
         return balance;
+    }
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
     public Customer getCustomer() {
         return customer;
